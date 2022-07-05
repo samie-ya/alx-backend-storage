@@ -15,7 +15,7 @@ if __name__ == "__main__":
         count = 0
         for i in value:
             count += 1
-        print("    method {}: {}".format(meth, count))
+        print("\tmethod {}: {}".format(meth, count))
     path = nginx.find({"path": "/status"}, {"method": "GET"})
     count = 0
     for i in path:
