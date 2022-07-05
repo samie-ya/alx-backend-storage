@@ -10,6 +10,6 @@ def top_students(mongo_collection):
         for subject in student["topics"]:
             total += subject["score"]
         ave = total / 3
-        mongo_collection.update_one(student,
+        mongo_collection.update_one({"name": student["name"]},
                                     {'$set': {"averageScore": ave}})
     return mongo_collection.find().sort("averageScore", pymongo.DESCENDING)
