@@ -12,7 +12,7 @@ class Cache:
         self._redis = redis.Redis()
         self._redis.flushdb()
 
-    def store(self: redis.Redis, data: Union[str, int, float, bytes]) -> str:
+    def store(self, data: Union[str, int, float, bytes]) -> str:
         """This function will take an argument and return a string"""
         key = str(uuid.uuid4())
         self._redis.set(key, data)
