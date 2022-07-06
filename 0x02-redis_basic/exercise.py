@@ -17,11 +17,17 @@ class Cache():
         key = str(uuid.uuid4())
         self._redis.set(key, data)
         return key
-#    def get(self, key: str, fn: Optional[Callable[Any], Any]):
-#        """This function will convert a data back to its original type"""
-#        def get_str:
-#            if type(fn) == str:
-#                return self._redis.get(key)..decode("utf-8")
-#        if (callable(fn)) and (self._redis.get(key) is None):
-#            return fn(self._redis.get(key))
-#        return self._redis.get(key)
+
+    def get(self, key: str, fn: Optional[Any]):
+        """This function will convert a data back to its original type"""
+        if (callable(fn)) and (self._redis.get(key) is not None):
+            return fn(self._redis.get(key))
+        return self._redis.get(key)
+
+    def get_str(self, key):
+        """This function will create a conversion function str"""
+        return Cache.get(key, str)
+
+    def get_int(self, key):
+        """This function will create a conversion function int"""
+        return Cache.get(key, int)
