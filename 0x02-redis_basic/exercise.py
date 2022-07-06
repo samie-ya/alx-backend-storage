@@ -28,7 +28,7 @@ def call_history(method: Callable) -> Callable:
         """This function will create list for input and outputs"""
         key = method.__qualname__
         self._redis.rpush("{}:inputs".format(key), str(args))
-        value = method(*args)
+        value = method(*args, **kwargs)
         self._redis.rpush("{}:outputs".format(key), value)
         return value
     return wrapper
