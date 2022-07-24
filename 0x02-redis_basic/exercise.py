@@ -30,7 +30,7 @@ def count_calls(method: Callable) -> Callable:
         """This function will increament everytime a method is called"""
         key = method.__qualname__
         self._redis.incr(key)
-        return method
+        return method(self, *args)
     return wrapper
 
 
@@ -42,7 +42,7 @@ class Cache:
         self._redis.flushdb()
 
     @call_history
-    # @count_calls
+    @count_calls
     def store(self, data: Union[str, bytes, int, float]) -> str:
         """This function will take an argument and return a string"""
         key = str(uuid.uuid4())
