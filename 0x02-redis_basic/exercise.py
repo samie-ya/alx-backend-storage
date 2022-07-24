@@ -6,6 +6,19 @@ from typing import Union, Optional, Any, Callable
 from functools import wraps
 
 
+def count_calls(method: Callable) -> Callable:
+    """This funtion will be a decorator function to count
+       how many times a function has been called
+    """
+    @wraps(method)
+    def wrapper(self, *args, **kwargs):
+        """This function will increament everytime a method is called"""
+        key = method.__qualname__
+        self._redis.incr(key)
+        return method
+    return wrapper
+
+
 class Cache:
     """This class will create a connection to redis server"""
     def __init__(self):
@@ -13,6 +26,7 @@ class Cache:
         self._redis = redis.Redis()
         self._redis.flushdb()
 
+    @count_calls
     def store(self, data: Union[str, bytes, int, float]) -> str:
         """This function will take an argument and return a string"""
         key = str(uuid.uuid4())
